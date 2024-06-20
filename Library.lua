@@ -694,10 +694,10 @@ do -- ui source
 								end
 							end
 						end)
-						
+
 						local function SetValue(ColorInput)
 							local ChosenColor = ColorInput:ToHex()
-							
+
 							local r, g, b = hex2rgb(ChosenColor):match('(%d+),%s*(%d+),%s*(%d+)')
 							if r and g and b then
 								local H,S,V = Color3_fromRGB(r, g, b):ToHSV()
@@ -713,13 +713,212 @@ do -- ui source
 								pcall(Properties.Callback, HSVColor);
 							end
 						end
-	
+
 						Config.ColorPickers[Flag] = {
 							H = Hue,
 							S = Saturation,
 							V = Value,
 							SetValue = SetValue,
 						}
+						local Items = {}
+						function Items:AddColorPicker(Flag, Properties)
+							local ColorButton = Instance_new("ImageButton")
+							local UICorner = Instance_new("UICorner")
+
+							ColorButton.Parent = ToggleFrame
+							ColorButton.AutoButtonColor = false
+							ColorButton.BackgroundColor3 = Properties.Default
+							ColorButton.Position = UDim2_new(1, -58, 0.5, -6)
+							ColorButton.Size = UDim2_new(0, 20, 0, 12)
+
+							UICorner.CornerRadius = UDim_new(0, 2)
+							UICorner.Parent = ColorButton
+
+							local Frame = Instance_new("Frame")
+							local Color = Instance_new("ImageButton")
+							local HSV = Instance_new("ImageButton")
+							local RGBBox = Instance_new("TextBox")
+							local HEXBox = Instance_new("TextBox")
+
+							Frame.Parent = MainFrame
+							Frame.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+							Frame.Size = UDim2_new(0, 160, 0, 160)
+							Frame.Visible = false
+
+							Color.Parent = Frame
+							Color.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+							Color.BorderColor3 = Color3_fromRGB(0, 0, 0)
+							Color.BorderSizePixel = 0
+							Color.Size = UDim2_new(0, 150, 0, 150)
+							Color.AutoButtonColor = false
+							Color.Image = "rbxassetid://17346159171"
+							Color.ImageColor3 = Properties.Default
+
+							local Picking = false
+							local Hue, Saturation, Value = Properties.Default:ToHSV()
+							Color.ImageColor3 = Color3_fromHSV(Hue, 1, 1);
+							Color.InputBegan:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									Picking = true
+								end
+							end)
+
+							Color.InputEnded:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									Picking = false
+								end
+							end)
+
+							UserInputService.InputChanged:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseMovement and Picking then
+									Saturation = 1-math_clamp((Mouse.X-Frame.AbsolutePosition.X)/Frame.AbsoluteSize.X, 0, 1)
+									Value = 1-math_clamp((Mouse.Y-Frame.AbsolutePosition.Y)/Frame.AbsoluteSize.Y, 0, 1)
+									local ChosenColor = Color3_fromHSV(Hue, Saturation, Value)
+									ColorButton.BackgroundColor3 = ChosenColor
+									RGBBox.Text = table.concat({ math.floor(ChosenColor.R * 255), math.floor(ChosenColor.G * 255), math.floor(ChosenColor.B * 255) }, ', ')
+									HEXBox.Text = "#" .. ChosenColor:ToHex()
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, ChosenColor);
+								end
+							end)
+
+							HSV.Parent = Frame
+							HSV.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+							HSV.BorderColor3 = Color3_fromRGB(0, 0, 0)
+							HSV.BorderSizePixel = 0
+							HSV.Position = UDim2_new(0, 150, 0, 0)
+							HSV.Size = UDim2_new(0, 10, 0, 150)
+							HSV.AutoButtonColor = false
+							HSV.Image = "rbxassetid://17336552773"
+
+							local PickingHue = false
+							HSV.InputBegan:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									PickingHue = true
+								end
+							end)
+
+							HSV.InputEnded:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									PickingHue = false
+								end
+							end)
+
+							UserInputService.InputChanged:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseMovement and PickingHue then
+									local ChosenHue = 1-math_clamp((Mouse.Y-HSV.AbsolutePosition.Y)/HSV.AbsoluteSize.Y, 0, 1)
+									Hue = ChosenHue
+									local ChosenColor = Color3_fromHSV(Hue, Saturation, Value)
+									Color.ImageColor3 = Color3_fromHSV(Hue, 1,1)
+									ColorButton.BackgroundColor3 = ChosenColor
+									RGBBox.Text = table.concat({ math.floor(ChosenColor.R * 255), math.floor(ChosenColor.G * 255), math.floor(ChosenColor.B * 255) }, ', ')
+									HEXBox.Text = "#" .. ChosenColor:ToHex()
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, ChosenColor);
+								end
+							end)
+
+							ColorButton.MouseButton1Click:Connect(function()
+								Frame.Visible = not Frame.Visible
+								Frame.Position = UDim2_new(0, (ColorButton.AbsolutePosition.X + ColorButton.AbsoluteSize.X)-MainFrame.AbsolutePosition.X, 0, (ColorButton.AbsolutePosition.Y + ColorButton.AbsoluteSize.Y)-MainFrame.AbsolutePosition.Y)
+							end)
+
+							RGBBox.Parent = Frame
+							RGBBox.BackgroundTransparency = 1
+							RGBBox.Position = UDim2_new(0, 0, 1, -10)
+							RGBBox.Size = UDim2_new(0.5, 0, 0, 10)
+							RGBBox.Font = Enum.Font.Code
+							RGBBox.PlaceholderColor3 = Color3_fromRGB(160, 160, 160)
+							RGBBox.PlaceholderText = "RGB"
+							local function hex2rgb(hex)
+								hex = hex:gsub("#","")
+								local r = tonumber("0x"..hex:sub(1,2))
+								local g = tonumber("0x"..hex:sub(3,4))
+								local b = tonumber("0x"..hex:sub(5,6))
+								return table.concat({r,g,b}, ', ')
+							end
+							RGBBox.Text = hex2rgb(Properties.Default:ToHex())
+							RGBBox.TextColor3 = Color3_fromRGB(160, 160, 160)
+							RGBBox.TextSize = 11
+							RGBBox.TextXAlignment = Enum.TextXAlignment.Center
+							RGBBox.FocusLost:Connect(function(Enter)
+								if Enter then
+									local r, g, b = RGBBox.Text:match('(%d+),%s*(%d+),%s*(%d+)')
+									if r and g and b then
+										local H,S,V = Color3_fromRGB(r, g, b):ToHSV()
+										Color.ImageColor3 = Color3_fromHSV(H, 1,1)
+										local HSVColor = Color3_fromHSV(H,S,V)
+										ColorButton.BackgroundColor3 = HSVColor
+										RGBBox.Text = hex2rgb(HSVColor:ToHex());
+										HEXBox.Text = "#" .. HSVColor:ToHex();
+										Config.ColorPickers[Flag].H = H
+										Config.ColorPickers[Flag].S = S
+										Config.ColorPickers[Flag].V = V
+										pcall(Properties.Callback, HSVColor);
+									end
+								end
+							end)
+
+							HEXBox.Parent = Frame
+							HEXBox.BackgroundTransparency = 1
+							HEXBox.Position = UDim2_new(.5, 0, 1, -10)
+							HEXBox.Size = UDim2_new(0.5, 0, 0, 10)
+							HEXBox.Font = Enum.Font.Code
+							HEXBox.PlaceholderColor3 = Color3_fromRGB(160, 160, 160)
+							HEXBox.PlaceholderText = "HEX"
+							HEXBox.Text = "#" .. Properties.Default:ToHex();
+							HEXBox.TextColor3 = Color3_fromRGB(160, 160, 160)
+							HEXBox.TextSize = 11
+							HEXBox.TextXAlignment = Enum.TextXAlignment.Center
+							HEXBox.FocusLost:Connect(function(Enter)
+								if Enter then
+									local success, result = pcall(Color3_fromHex, HEXBox.Text)
+									if success and typeof(result) == 'Color3' then
+										local H,S,V = result:ToHSV()
+										Color.ImageColor3 = Color3_fromHSV(H, 1,1)
+										local HSVColor = Color3_fromHSV(H,S,V);
+										ColorButton.BackgroundColor3 = HSVColor
+										RGBBox.Text = hex2rgb(HSVColor:ToHex());
+										HEXBox.Text = "#" .. HSVColor:ToHex();
+										Config.ColorPickers[Flag].H = H
+										Config.ColorPickers[Flag].S = S
+										Config.ColorPickers[Flag].V = V
+										pcall(Properties.Callback, Color3_fromHSV(H,S,V));
+									end
+								end
+							end)
+
+							local function SetValue(ColorInput)
+								local ChosenColor = ColorInput:ToHex()
+
+								local r, g, b = hex2rgb(ChosenColor):match('(%d+),%s*(%d+),%s*(%d+)')
+								if r and g and b then
+									local H,S,V = Color3_fromRGB(r, g, b):ToHSV()
+									Hue, Saturation, Value = H,S,V;
+									Color.ImageColor3 = Color3_fromHSV(H,1,1)
+									local HSVColor = Color3_fromHSV(H,S,V)
+									ColorButton.BackgroundColor3 = HSVColor
+									RGBBox.Text = hex2rgb(HSVColor:ToHex());
+									HEXBox.Text = "#" .. HSVColor:ToHex();
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, HSVColor);
+								end
+							end
+
+							Config.ColorPickers[Flag] = {
+								H = Hue,
+								S = Saturation,
+								V = Value,
+								SetValue = SetValue,
+							}
+						end
+						return Items;
 					end
 					return Items;
 				end;
@@ -1118,7 +1317,7 @@ do -- ui source
 						local ColorButton = Instance_new("ImageButton")
 						local UICorner = Instance_new("UICorner")
 
-						ColorButton.Parent = Label
+						ColorButton.Parent = ToggleFrame
 						ColorButton.AutoButtonColor = false
 						ColorButton.BackgroundColor3 = Properties.Default
 						ColorButton.Position = UDim2_new(1, -32, 0.5, -6)
@@ -1310,6 +1509,205 @@ do -- ui source
 							V = Value,
 							SetValue = SetValue,
 						}
+						local Items = {}
+						function Items:AddColorPicker(Flag, Properties)
+							local ColorButton = Instance_new("ImageButton")
+							local UICorner = Instance_new("UICorner")
+
+							ColorButton.Parent = ToggleFrame
+							ColorButton.AutoButtonColor = false
+							ColorButton.BackgroundColor3 = Properties.Default
+							ColorButton.Position = UDim2_new(1, -58, 0.5, -6)
+							ColorButton.Size = UDim2_new(0, 20, 0, 12)
+
+							UICorner.CornerRadius = UDim_new(0, 2)
+							UICorner.Parent = ColorButton
+
+							local Frame = Instance_new("Frame")
+							local Color = Instance_new("ImageButton")
+							local HSV = Instance_new("ImageButton")
+							local RGBBox = Instance_new("TextBox")
+							local HEXBox = Instance_new("TextBox")
+
+							Frame.Parent = MainFrame
+							Frame.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+							Frame.Size = UDim2_new(0, 160, 0, 160)
+							Frame.Visible = false
+
+							Color.Parent = Frame
+							Color.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+							Color.BorderColor3 = Color3_fromRGB(0, 0, 0)
+							Color.BorderSizePixel = 0
+							Color.Size = UDim2_new(0, 150, 0, 150)
+							Color.AutoButtonColor = false
+							Color.Image = "rbxassetid://17346159171"
+							Color.ImageColor3 = Properties.Default
+
+							local Picking = false
+							local Hue, Saturation, Value = Properties.Default:ToHSV()
+							Color.ImageColor3 = Color3_fromHSV(Hue, 1, 1);
+							Color.InputBegan:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									Picking = true
+								end
+							end)
+
+							Color.InputEnded:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									Picking = false
+								end
+							end)
+
+							UserInputService.InputChanged:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseMovement and Picking then
+									Saturation = 1-math_clamp((Mouse.X-Frame.AbsolutePosition.X)/Frame.AbsoluteSize.X, 0, 1)
+									Value = 1-math_clamp((Mouse.Y-Frame.AbsolutePosition.Y)/Frame.AbsoluteSize.Y, 0, 1)
+									local ChosenColor = Color3_fromHSV(Hue, Saturation, Value)
+									ColorButton.BackgroundColor3 = ChosenColor
+									RGBBox.Text = table.concat({ math.floor(ChosenColor.R * 255), math.floor(ChosenColor.G * 255), math.floor(ChosenColor.B * 255) }, ', ')
+									HEXBox.Text = "#" .. ChosenColor:ToHex()
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, ChosenColor);
+								end
+							end)
+
+							HSV.Parent = Frame
+							HSV.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+							HSV.BorderColor3 = Color3_fromRGB(0, 0, 0)
+							HSV.BorderSizePixel = 0
+							HSV.Position = UDim2_new(0, 150, 0, 0)
+							HSV.Size = UDim2_new(0, 10, 0, 150)
+							HSV.AutoButtonColor = false
+							HSV.Image = "rbxassetid://17336552773"
+
+							local PickingHue = false
+							HSV.InputBegan:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									PickingHue = true
+								end
+							end)
+
+							HSV.InputEnded:Connect(function(Input)
+								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+									PickingHue = false
+								end
+							end)
+
+							UserInputService.InputChanged:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseMovement and PickingHue then
+									local ChosenHue = 1-math_clamp((Mouse.Y-HSV.AbsolutePosition.Y)/HSV.AbsoluteSize.Y, 0, 1)
+									Hue = ChosenHue
+									local ChosenColor = Color3_fromHSV(Hue, Saturation, Value)
+									Color.ImageColor3 = Color3_fromHSV(Hue, 1,1)
+									ColorButton.BackgroundColor3 = ChosenColor
+									RGBBox.Text = table.concat({ math.floor(ChosenColor.R * 255), math.floor(ChosenColor.G * 255), math.floor(ChosenColor.B * 255) }, ', ')
+									HEXBox.Text = "#" .. ChosenColor:ToHex()
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, ChosenColor);
+								end
+							end)
+
+							ColorButton.MouseButton1Click:Connect(function()
+								Frame.Visible = not Frame.Visible
+								Frame.Position = UDim2_new(0, (ColorButton.AbsolutePosition.X + ColorButton.AbsoluteSize.X)-MainFrame.AbsolutePosition.X, 0, (ColorButton.AbsolutePosition.Y + ColorButton.AbsoluteSize.Y)-MainFrame.AbsolutePosition.Y)
+							end)
+
+							RGBBox.Parent = Frame
+							RGBBox.BackgroundTransparency = 1
+							RGBBox.Position = UDim2_new(0, 0, 1, -10)
+							RGBBox.Size = UDim2_new(0.5, 0, 0, 10)
+							RGBBox.Font = Enum.Font.Code
+							RGBBox.PlaceholderColor3 = Color3_fromRGB(160, 160, 160)
+							RGBBox.PlaceholderText = "RGB"
+							local function hex2rgb(hex)
+								hex = hex:gsub("#","")
+								local r = tonumber("0x"..hex:sub(1,2))
+								local g = tonumber("0x"..hex:sub(3,4))
+								local b = tonumber("0x"..hex:sub(5,6))
+								return table.concat({r,g,b}, ', ')
+							end
+							RGBBox.Text = hex2rgb(Properties.Default:ToHex())
+							RGBBox.TextColor3 = Color3_fromRGB(160, 160, 160)
+							RGBBox.TextSize = 11
+							RGBBox.TextXAlignment = Enum.TextXAlignment.Center
+							RGBBox.FocusLost:Connect(function(Enter)
+								if Enter then
+									local r, g, b = RGBBox.Text:match('(%d+),%s*(%d+),%s*(%d+)')
+									if r and g and b then
+										local H,S,V = Color3_fromRGB(r, g, b):ToHSV()
+										Color.ImageColor3 = Color3_fromHSV(H, 1,1)
+										local HSVColor = Color3_fromHSV(H,S,V)
+										ColorButton.BackgroundColor3 = HSVColor
+										RGBBox.Text = hex2rgb(HSVColor:ToHex());
+										HEXBox.Text = "#" .. HSVColor:ToHex();
+										Config.ColorPickers[Flag].H = H
+										Config.ColorPickers[Flag].S = S
+										Config.ColorPickers[Flag].V = V
+										pcall(Properties.Callback, HSVColor);
+									end
+								end
+							end)
+
+							HEXBox.Parent = Frame
+							HEXBox.BackgroundTransparency = 1
+							HEXBox.Position = UDim2_new(.5, 0, 1, -10)
+							HEXBox.Size = UDim2_new(0.5, 0, 0, 10)
+							HEXBox.Font = Enum.Font.Code
+							HEXBox.PlaceholderColor3 = Color3_fromRGB(160, 160, 160)
+							HEXBox.PlaceholderText = "HEX"
+							HEXBox.Text = "#" .. Properties.Default:ToHex();
+							HEXBox.TextColor3 = Color3_fromRGB(160, 160, 160)
+							HEXBox.TextSize = 11
+							HEXBox.TextXAlignment = Enum.TextXAlignment.Center
+							HEXBox.FocusLost:Connect(function(Enter)
+								if Enter then
+									local success, result = pcall(Color3_fromHex, HEXBox.Text)
+									if success and typeof(result) == 'Color3' then
+										local H,S,V = result:ToHSV()
+										Color.ImageColor3 = Color3_fromHSV(H, 1,1)
+										local HSVColor = Color3_fromHSV(H,S,V);
+										ColorButton.BackgroundColor3 = HSVColor
+										RGBBox.Text = hex2rgb(HSVColor:ToHex());
+										HEXBox.Text = "#" .. HSVColor:ToHex();
+										Config.ColorPickers[Flag].H = H
+										Config.ColorPickers[Flag].S = S
+										Config.ColorPickers[Flag].V = V
+										pcall(Properties.Callback, Color3_fromHSV(H,S,V));
+									end
+								end
+							end)
+
+							local function SetValue(ColorInput)
+								local ChosenColor = ColorInput:ToHex()
+
+								local r, g, b = hex2rgb(ChosenColor):match('(%d+),%s*(%d+),%s*(%d+)')
+								if r and g and b then
+									local H,S,V = Color3_fromRGB(r, g, b):ToHSV()
+									Hue, Saturation, Value = H,S,V;
+									Color.ImageColor3 = Color3_fromHSV(H,1,1)
+									local HSVColor = Color3_fromHSV(H,S,V)
+									ColorButton.BackgroundColor3 = HSVColor
+									RGBBox.Text = hex2rgb(HSVColor:ToHex());
+									HEXBox.Text = "#" .. HSVColor:ToHex();
+									Config.ColorPickers[Flag].H = Hue
+									Config.ColorPickers[Flag].S = Saturation
+									Config.ColorPickers[Flag].V = Value
+									pcall(Properties.Callback, HSVColor);
+								end
+							end
+
+							Config.ColorPickers[Flag] = {
+								H = Hue,
+								S = Saturation,
+								V = Value,
+								SetValue = SetValue,
+							}
+						end
+						return Items;
 					end
 					return Items;
 				end
