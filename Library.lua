@@ -814,12 +814,12 @@ do -- ui source
 				end
 
 				function Items:AddDropdown(Flag, Properties)
-					local Dropdown = Instance_new("Frame")
-					local DropdownText = Instance_new("TextLabel")
-					local DropdownBackground = Instance_new("TextButton")
-					local DropdownValue = Instance_new("TextLabel")
-					local ScrollingFrame = Instance_new("ScrollingFrame")
-					local UIListLayout = Instance_new("UIListLayout")
+					local Dropdown = Instance.new("Frame")
+					local DropdownText = Instance.new("TextLabel")
+					local DropdownBackground = Instance.new("TextButton")
+					local DropdownValue = Instance.new("TextLabel")
+					local ScrollingFrame = Instance.new("ScrollingFrame")
+					local UIListLayout = Instance.new("UIListLayout")
 					
 					UIListLayout.Parent = ScrollingFrame
 					UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -895,7 +895,8 @@ do -- ui source
 					end)
 
 					ScrollingFrame.ChildAdded:Connect(function(child)
-						ScrollingFrame.CanvasSize = UDim2_new(1,0,0,UIListLayout.AbsoluteContentSize.Y)
+						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
+						ScrollingFrame.CanvasSize = UDim2_new(0,UIListLayout.AbsoluteContentSize.X,0,UIListLayout.AbsoluteContentSize.Y-3)
 					end)
 
 					local selectedItem = nil
@@ -906,8 +907,8 @@ do -- ui source
 							end
 						end
 						for i,v in pairs(Properties.Values) do
-							local ItemButton = Instance_new("TextButton")
-							local DropdownValue2 = Instance_new("TextLabel")
+							local ItemButton = Instance.new("TextButton")
+							local DropdownValue2 = Instance.new("TextLabel")
 							
 							ItemButton.Parent = ScrollingFrame
 							ItemButton.AnchorPoint = Vector2.new(0.5, 0)
