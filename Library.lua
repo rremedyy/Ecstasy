@@ -119,15 +119,15 @@ do -- ui source
 		Config['KeyPickers'] = {};
 		Config['ColorPickers'] = {};
 		
-		local KeybindUI = Instance.new("ScreenGui")
-		local TextButton = Instance.new("TextButton")
-		local KeybindBox = Instance.new("Frame")
-		local TitleBox = Instance.new("Frame")
-		local TextLabel = Instance.new("TextLabel")
-		local BottomBox = Instance.new("Frame")
-		local UIListLayout = Instance.new("UIListLayout")
-		local UIPadding = Instance.new("UIPadding")
-		local TextLabel_3 = Instance.new("TextLabel")
+		local KeybindUI = Instance_new("ScreenGui")
+		local TextButton = Instance_new("TextButton")
+		local KeybindBox = Instance_new("Frame")
+		local TitleBox = Instance_new("Frame")
+		local TextLabel = Instance_new("TextLabel")
+		local BottomBox = Instance_new("Frame")
+		local UIListLayout = Instance_new("UIListLayout")
+		local UIPadding = Instance_new("UIPadding")
+		local TextLabel_3 = Instance_new("TextLabel")
 		
 		UIListLayout.Parent = BottomBox
 		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -284,7 +284,7 @@ do -- ui source
 
 				local SectionFrame = Instance_new("Frame");
 				local Title = Instance_new("TextLabel");
-				local Section = Instance_new("ScrollingFrame");
+				local Section = Instance_new("Frame");
 				local FramePadding = Instance_new("UIPadding");
 				local FrameLayout = Instance_new("UIListLayout");
 
@@ -325,7 +325,6 @@ do -- ui source
 					if string.find(child.ClassName, 'UI') then return end;
 					repeat wait() until child.Size ~= nil and child.Size ~= UDim2_new(0,0,0,0);
 					SectionFrame.Size = UDim2_new(1, 0, 0, FrameLayout.AbsoluteContentSize.Y+41);
-					Section.CanvasSize = UDim2_new(0, FrameLayout.AbsoluteContentSize.X, 0, FrameLayout.AbsoluteContentSize.Y);
 				end)
 
 				local Items = {}
@@ -405,7 +404,7 @@ do -- ui source
 					local Items = {}
 					function Items:AddKeypicker(Flag, Properties)
 						local TextButton = Instance_new("TextButton")
-						local UILabel = Instance.new("TextLabel")
+						local UILabel = Instance_new("TextLabel")
 						TextButton.Parent = ToggleFrame
 						TextButton.BackgroundTransparency = 1
 						TextButton.Position = UDim2_new(1, -47, 0.5, -6)
@@ -823,12 +822,12 @@ do -- ui source
 				end
 
 				function Items:AddDropdown(Flag, Properties)
-					local Dropdown = Instance.new("Frame")
-					local DropdownText = Instance.new("TextLabel")
-					local DropdownBackground = Instance.new("TextButton")
-					local DropdownValue = Instance.new("TextLabel")
-					local ScrollingFrame = Instance.new("ScrollingFrame")
-					local UIListLayout = Instance.new("UIListLayout")
+					local Dropdown = Instance_new("Frame")
+					local DropdownText = Instance_new("TextLabel")
+					local DropdownBackground = Instance_new("TextButton")
+					local DropdownValue = Instance_new("TextLabel")
+					local ScrollingFrame = Instance_new("ScrollingFrame")
+					local UIListLayout = Instance_new("UIListLayout")
 					
 					UIListLayout.Parent = ScrollingFrame
 					UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -893,11 +892,9 @@ do -- ui source
 							cooldown = true
 							if open == false then
 								ScrollingFrame.Visible = true
-								SectionFrame.Size = UDim2_new(1, 0, 0, FrameLayout.AbsoluteContentSize.Y+41+72);
 								open = true
 							else
 								ScrollingFrame.Visible = false
-								SectionFrame.Size = UDim2_new(1, 0, 0, FrameLayout.AbsoluteContentSize.Y+41);
 								open = false
 							end
 						end
@@ -906,7 +903,7 @@ do -- ui source
 					end)
 
 					ScrollingFrame.ChildAdded:Connect(function(child)
-						ScrollingFrame.CanvasSize = UDim2_new(1,0,0,UIListLayout.AbsoluteContentSize.Y + 18)
+						ScrollingFrame.CanvasSize = UDim2_new(1,0,0,UIListLayout.AbsoluteContentSize.Y)
 					end)
 
 					local selectedItem = nil
@@ -917,8 +914,8 @@ do -- ui source
 							end
 						end
 						for i,v in pairs(Properties.Values) do
-							local ItemButton = Instance.new("TextButton")
-							local DropdownValue2 = Instance.new("TextLabel")
+							local ItemButton = Instance_new("TextButton")
+							local DropdownValue2 = Instance_new("TextLabel")
 							
 							ItemButton.Parent = ScrollingFrame
 							ItemButton.AnchorPoint = Vector2.new(0.5, 0)
@@ -947,8 +944,7 @@ do -- ui source
 								DropdownValue2.TextColor3 = Color3_fromRGB(216, 170, 202)
 								selectedItem = ItemButton
 							end
-
-
+							
 							local cooldown2 = false
 							ItemButton.MouseButton1Click:Connect(function()
 								if not cooldown2 then
