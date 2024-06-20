@@ -333,7 +333,6 @@ do -- ui source
 					local TextLabel = Instance_new("TextLabel");
 
 					-- ToggleFrame
-					ToggleFrame.Name = "Toggle";
 					ToggleFrame.Parent = Section;
 					ToggleFrame.BackgroundColor3 = Color3_fromRGB(255, 255, 255);
 					ToggleFrame.BackgroundTransparency = 1;
@@ -708,7 +707,6 @@ do -- ui source
 					local SliderValue = Instance_new("TextLabel");
 					local SliderTick = Instance_new("Frame");
 					-- Slider		
-					Slider.Name = "Slider";
 					Slider.Parent = Section;
 					Slider.BackgroundColor3 = Color3_fromRGB(255, 255, 255);
 					Slider.BackgroundTransparency = 1;
@@ -716,7 +714,6 @@ do -- ui source
 					Slider.BorderSizePixel = 0;
 					Slider.Size = UDim2_new(1, 0, 0, 35);
 					-- SliderText
-					SliderText.Name = "SliderText";
 					SliderText.Parent = Slider;
 					SliderText.BackgroundColor3 = Color3_fromRGB(255, 255, 255);
 					SliderText.BackgroundTransparency = 1;
@@ -730,7 +727,6 @@ do -- ui source
 					SliderText.TextSize = 14;
 					SliderText.TextXAlignment = Enum.TextXAlignment.Left;
 					-- SliderBackground
-					SliderBackground.Name = "SliderBackground";
 					SliderBackground.AutoButtonColor = false;
 					SliderBackground.TextTransparency = 1;
 					SliderBackground.Parent = Slider;
@@ -740,13 +736,11 @@ do -- ui source
 					SliderBackground.Position = UDim2_new(0.5, 0, 1, -16);
 					SliderBackground.Size = UDim2_new(1, -25, 0, 11);
 					-- SliderFill
-					SliderFill.Name = "SliderFill";
 					SliderFill.Parent = SliderBackground;
 					SliderFill.BackgroundColor3 = Color3_fromRGB(252, 33, 122);
 					SliderFill.BorderColor3 = Color3_fromRGB(22, 19, 22);
 					SliderFill.Size = UDim2_new(0.25, 0, 1, 0);
 					-- SliderValue
-					SliderValue.Name = "SliderValue";
 					SliderValue.Parent = SliderBackground;
 					SliderValue.AnchorPoint = Vector2_new(0.5, 0);
 					SliderValue.BackgroundColor3 = Color3_fromRGB(255, 255, 255);
@@ -761,7 +755,6 @@ do -- ui source
 					SliderValue.TextSize = 13;
 					SliderValue.TextXAlignment = Enum.TextXAlignment.Center;
 					-- SliderTick
-					SliderTick.Name = "SliderTick";
 					SliderTick.Parent = SliderBackground;
 					SliderTick.BackgroundColor3 = Color3_fromRGB(255, 255, 255);
 					SliderTick.BorderColor3 = Color3_fromRGB(45, 42, 45);
@@ -994,7 +987,6 @@ do -- ui source
 					local Label = Instance_new("Frame")
 					local LabelText = Instance_new("TextLabel")
 
-					Label.Name = "Label"
 					Label.Parent = Section
 					Label.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
 					Label.BackgroundTransparency = 1
