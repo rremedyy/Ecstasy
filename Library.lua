@@ -137,7 +137,7 @@ do -- ui source
 			end
 			Horizontal.Visible = false;
 			Vertical.Visible = false;
-			UserInputService.MouseIconEnabled = LastState;
+			UserInputService.MouseIconEnabled = true;
 			UnlockFrame.Modal = false;
 		end
 		
