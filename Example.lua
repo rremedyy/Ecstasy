@@ -15,19 +15,19 @@ General:AddToggle('ToggleFlag1', {
 	Text = 'Toggle 1';
 	Default = false;
 	Callback = function(Value)
-      print(Value)
+      		print(Value)
 	end;
 }):AddColorPicker('ColorPickerFlag1', {
 	Default = Color3.fromRGB(255,255,255);
 	Callback = function(Value)
-      print(Value)
+      		print(Value)
 	end;
 });
 General:AddToggle('ToggleFlag2', {
 	Text = 'Toggle 2';
 	Default = true;
 	Callback = function(Value)
-      print(Value)
+      		print(Value)
 	end;
 }):AddKeypicker('KeyPickerFlag1', {
 	Default = 'X';
@@ -42,7 +42,7 @@ General:AddSlider('SliderFlag1', {
 	Min = 5;
 	Max = 65;
 	Callback = function(Value)
-      print(Value)
+      		print(Value)
 	end;
 });
 General:AddLabel({
