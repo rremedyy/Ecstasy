@@ -9,11 +9,9 @@ local Color3_fromHex = Color3.fromHex;
 local math_clamp = math.clamp;
 local math_ceil = math.ceil;
 local math_floor = math.floor;
-local Drawing_new = Drawing.new;
 local table_insert = table.insert;
 
 local TweenService = game:GetService('TweenService');
-local HttpService = game:GetService('HttpService');
 local RunService = game:GetService('RunService');
 local UserInputService = game:GetService('UserInputService');
 local Players = game:GetService('Players');
@@ -36,7 +34,6 @@ do -- ui source
 		local TabItems = Instance_new("Frame");
 
 		UI.Parent = game.Players.LocalPlayer.PlayerGui
-		UI.ResetOnSpawn = false;
 		-- UnlockFrame
 		UnlockFrame.Parent = UI;
 		UnlockFrame.BackgroundTransparency = 1;
@@ -106,45 +103,82 @@ do -- ui source
 		local SelectedTab = nil;
 		local Items = {};
 
-		local Horizontal = Drawing_new("Line");
-		Horizontal.Visible = true;
-		Horizontal.Color = Color3_new(1,1,1);
-		local Vertical = Drawing_new("Line");
-		Vertical.Visible = true;
-		Vertical.Color = Color3_new(1,1,1);
-		
-		RunService.RenderStepped:Connect(function()
-			if UI.Enabled then
-				local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-				Horizontal.From = Vector2.new(Mouse.X - 7, Mouse.Y)
-				Horizontal.To = Vector2.new(Mouse.X + 8, Mouse.Y)
-				Vertical.From = Vector2.new(Mouse.X, Mouse.Y - 7)
-				Vertical.To = Vector2.new(Mouse.X, Mouse.Y + 8)
-			end
-		end)
-
-		UserInputService.MouseIconEnabled = false
 		function Items:Toggle()
 			local Boolean = UI.Enabled
 			UI.Enabled = not Boolean
 			UnlockFrame.Modal = not Boolean
-			local LastState = UserInputService.MouseIconEnabled
 			while UI.Enabled do
-				UserInputService.MouseIconEnabled = false
-				Horizontal.Visible = true
-				Vertical.Visible = true
 				task.wait()
 			end
-			Horizontal.Visible = false;
-			Vertical.Visible = false;
-			UserInputService.MouseIconEnabled = true;
 			UnlockFrame.Modal = false;
 		end
-		
 		Config['Toggles'] = {};
 		Config['Sliders'] = {};
 		Config['KeyPickers'] = {};
 		Config['ColorPickers'] = {};
+		
+		local KeybindUI = Instance.new("ScreenGui")
+		local TextButton = Instance.new("TextButton")
+		local KeybindBox = Instance.new("Frame")
+		local TitleBox = Instance.new("Frame")
+		local TextLabel = Instance.new("TextLabel")
+		local BottomBox = Instance.new("Frame")
+		local UIListLayout = Instance.new("UIListLayout")
+		local UIPadding = Instance.new("UIPadding")
+		local TextLabel_3 = Instance.new("TextLabel")
+		
+		UIListLayout.Parent = BottomBox
+		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout.Padding = UDim.new(0, 2)
+
+		UIPadding.Parent = BottomBox
+		UIPadding.PaddingLeft = UDim.new(0, 8)
+		UIPadding.PaddingTop = UDim.new(0, 4)
+
+		KeybindUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+		KeybindBox.Parent = KeybindUI
+		KeybindBox.AnchorPoint = Vector2_new(0, .5);
+		KeybindBox.Active = true
+		KeybindBox.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+		KeybindBox.BorderColor3 = Color3_fromRGB(0, 0, 0)
+		KeybindBox.BorderSizePixel = 0
+		KeybindBox.Draggable = true
+		KeybindBox.Position = UDim2_new(0, 50, 0.5, 0)
+		KeybindBox.Size = UDim2_new(0, 198, 0, 48)
+
+		TitleBox.Parent = KeybindBox
+		TitleBox.AnchorPoint = Vector2_new(0.5, 0.5)
+		TitleBox.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+		TitleBox.BorderColor3 = Color3_fromRGB(50, 50, 50)
+		TitleBox.Position = UDim2_new(0.5, 0, 0, 17)
+		TitleBox.Size = UDim2_new(1, -10, 0, 24)
+
+		TextLabel.Parent = TitleBox
+		TextLabel.AnchorPoint = Vector2_new(0.5, 0.5)
+		TextLabel.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.BorderColor3 = Color3_fromRGB(0, 0, 0)
+		TextLabel.BorderSizePixel = 0
+		TextLabel.Position = UDim2_new(0.5, 0, 0.5, 0)
+		TextLabel.Size = UDim2_new(1, -10, 1, 0)
+		TextLabel.Font = Enum.Font.Code
+		TextLabel.Text = "Keybinds"
+		TextLabel.TextColor3 = Color3_fromRGB(160, 160, 160)
+		TextLabel.TextSize = 13
+
+		BottomBox.Parent = KeybindBox
+		BottomBox.AnchorPoint = Vector2_new(0.5, 0)
+		BottomBox.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+		BottomBox.BorderColor3 = Color3_fromRGB(50, 50, 50)
+		BottomBox.Position = UDim2_new(0.5, 0, 0, 35)
+		BottomBox.Size = UDim2_new(1, -10, 0, 8)
+		
+		BottomBox.ChildAdded:Connect(function(child)
+			KeybindBox.Size = UDim2_new(0, 198, 0, KeybindBox.Size.Y.Offset + 20)
+			BottomBox.Size = UDim2_new(1, -10, 0, BottomBox.Size.Y.Offset + 20)
+		end)
+	
 		function Items:AddTab(Properties)
 			-- Tab
 			local TabButton = Instance_new("TextButton");
@@ -368,6 +402,7 @@ do -- ui source
 					local Items = {}
 					function Items:AddKeypicker(Flag, Properties)
 						local TextButton = Instance_new("TextButton")
+						local UILabel = Instance.new("TextLabel")
 						TextButton.Parent = ToggleFrame
 						TextButton.BackgroundTransparency = 1
 						TextButton.Position = UDim2_new(1, -47, 0.5, -6)
@@ -378,7 +413,21 @@ do -- ui source
 						TextButton.TextColor3 = Color3_fromRGB(255, 255, 255)
 						TextButton.TextSize = 14
 						TextButton.TextXAlignment = Enum.TextXAlignment.Right
-
+						if not Properties.NoUI then
+							UILabel.Parent = BottomBox
+							UILabel.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+							UILabel.BackgroundTransparency = 1
+							UILabel.BorderColor3 = Color3_fromRGB(0, 0, 0)
+							UILabel.BorderSizePixel = 0
+							UILabel.Position = UDim2_new(0, 8, 0, 0)
+							UILabel.Size = UDim2_new(1, 0, 0, 20)
+							UILabel.Font = Enum.Font.Code
+							UILabel.Text = Properties.Text .. " [" .. Properties.Default .. "]"
+							UILabel.TextColor3 = Color3_fromRGB(160, 160, 160)
+							UILabel.TextSize = 13
+							UILabel.TextXAlignment = Enum.TextXAlignment.Left
+						end
+						
 						local cooldown = false
 						local key = Properties.Default
 						local allowKeyChange = false
@@ -403,6 +452,7 @@ do -- ui source
 								allowKeyChange = false
 								Config.KeyPickers[Flag].Value = key
 								TextButton.Text = "[" .. key .. "]"
+								UILabel.Text = Properties.Text .. " [" .. key .. "]"
 								wait(0.1)
 								cooldown = false
 							else
@@ -410,8 +460,14 @@ do -- ui source
 									if (input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode.Name == key) or (input.UserInputType == Enum.UserInputType.MouseButton1 and key == "MB1") or (input.UserInputType == Enum.UserInputType.MouseButton2 and key == "MB2") then
 										toggled = not toggled
 										if Properties.Mode == 'Held' then
+											UILabel.TextColor3 = Color3_fromRGB(216, 170, 202)
 											pcall(Properties.Callback, true)
 										elseif Properties.Mode == 'Toggle' then
+											if toggled then
+												UILabel.TextColor3 = Color3_fromRGB(216, 170, 202)
+											else
+												UILabel.TextColor3 = Color3_fromRGB(160, 160, 160)
+											end
 											pcall(Properties.Callback, toggled)
 										end
 									end
@@ -422,6 +478,7 @@ do -- ui source
 							if not processed and not cooldown then
 								if (input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode.Name == key) or (input.UserInputType == Enum.UserInputType.MouseButton1 and key == "MB1") or (input.UserInputType == Enum.UserInputType.MouseButton2 and key == "MB2") then
 									if Properties.Mode == 'Held' then
+										UILabel.TextColor3 = Color3_fromRGB(160, 160, 160)
 										pcall(Properties.Callback, false)
 									end
 								end
@@ -431,6 +488,7 @@ do -- ui source
 						local function SetValue(KeyInput)
 							key = KeyInput
 							TextButton.Text = "[" .. key .. "]"
+							UILabel.Text = Properties.Text .. " [" .. key .. "]"
 							Config.KeyPickers[Flag].Value = key
 						end
 						
@@ -788,6 +846,7 @@ do -- ui source
 					
 					local Items = {}
 					function Items:AddKeypicker(Flag, Properties)
+						
 						local TextButton = Instance_new("TextButton")
 						TextButton.Parent = Label
 						TextButton.BackgroundTransparency = 1
@@ -1074,7 +1133,7 @@ do -- ui source
 
 					ButtonButton.Parent = Button
 					ButtonButton.AnchorPoint = Vector2_new(0.5, 0)
-					ButtonButton.BackgroundColor3 = Color3_fromRGB(22, 19, 22)
+					ButtonButton.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
 					ButtonButton.BorderColor3 = Color3_fromRGB(45, 42, 45)
 					ButtonButton.Position = UDim2_new(0.5, 0, 1, -20)
 					ButtonButton.Size = UDim2_new(1, -25, 0, 16)
@@ -1092,5 +1151,4 @@ do -- ui source
 		return Items;
 	end
 end
-
 return Library, Config
