@@ -936,7 +936,6 @@ do -- ui source
 							DropdownValue2.TextSize = 13
 							DropdownValue2.TextXAlignment = Enum.TextXAlignment.Left
 							DropdownValue2.ZIndex = 52
-							
 							if v == Properties.Default then
 								DropdownValue2.TextColor3 = Color3_fromRGB(216, 170, 202)
 								selectedItem = ItemButton
