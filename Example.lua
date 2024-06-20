@@ -1,4 +1,4 @@
-local Library, Config = loadstring(game:HttpGet('https://raw.githubusercontent.com/rremedyy/Ecstasy/main/Library'))()
+local Library, Config = loadstring(game:HttpGet('https://raw.githubusercontent.com/rremedyy/Ecstasy/main/Library.lua'))()
 
 local Library = Library:Init({
 	Name = "Test UI";
