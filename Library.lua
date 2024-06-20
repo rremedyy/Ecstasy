@@ -6,6 +6,7 @@ local Color3_new = Color3.new;
 local Color3_fromRGB = Color3.fromRGB;
 local Color3_fromHSV = Color3.fromHSV;
 local Color3_fromHex = Color3.fromHex;
+warn("NEW")
 local math_clamp = math.clamp;
 local math_ceil = math.ceil;
 local math_floor = math.floor;
