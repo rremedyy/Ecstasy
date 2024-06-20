@@ -876,6 +876,7 @@ do -- ui source
 					ScrollingFrame.Size = UDim2_new(1, -25, 0, 72)
 					ScrollingFrame.Visible = false
 					ScrollingFrame.ScrollBarThickness = 0
+					ScrollingFrame.ZIndex = 50
 					
 					local open = false
 					local cooldown = false
@@ -919,6 +920,7 @@ do -- ui source
 							ItemButton.Size = UDim2.new(1, 0, 0, 18)
 							ItemButton.AutoButtonColor = false
 							ItemButton.TextTransparency = 1
+							ScrollingFrame.ZIndex = 51
 
 							DropdownValue2.Parent = ItemButton
 							DropdownValue2.AnchorPoint = Vector2.new(0.5, 0)
@@ -933,6 +935,7 @@ do -- ui source
 							DropdownValue2.TextColor3 = Color3.fromRGB(160, 160, 160)
 							DropdownValue2.TextSize = 13
 							DropdownValue2.TextXAlignment = Enum.TextXAlignment.Left
+							ScrollingFrame.ZIndex = 52
 							if v == Properties.Default then
 								DropdownValue2.TextColor3 = Color3_fromRGB(216, 170, 202)
 								selectedItem = ItemButton
