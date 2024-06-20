@@ -36,6 +36,7 @@ do -- ui source
 		local TabItems = Instance_new("Frame");
 
 		UI.Parent = game.Players.LocalPlayer.PlayerGui
+		UI.ResetOnSpawn = false;
 		-- UnlockFrame
 		UnlockFrame.Parent = UI;
 		UnlockFrame.BackgroundTransparency = 1;
