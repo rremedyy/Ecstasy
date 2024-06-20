@@ -105,12 +105,12 @@ do -- ui source
 		local SelectedTab = nil;
 		local Items = {};
 
-		local Horizontal = Drawing.new("Line");
+		local Horizontal = Drawing_new("Line");
 		Horizontal.Visible = true;
-		Horizontal.Color = Color3.new(1,1,1);
-		local Vertical = Drawing.new("Line");
+		Horizontal.Color = Color3_new(1,1,1);
+		local Vertical = Drawing_new("Line");
 		Vertical.Visible = true;
-		Vertical.Color = Color3.new(1,1,1);
+		Vertical.Color = Color3_new(1,1,1);
 		
 		RunService.RenderStepped:Connect(function()
 			if UI.Enabled then
