@@ -966,7 +966,7 @@ do -- ui source
 									ScrollingFrame.Visible = false
 									open = false
 
-									pcall(Properties.Callback, selectedItem.Name)
+									pcall(Properties.Callback, DropdownValue2.Text)
 									wait(0.25)
 									cooldown2 = false
 								end
@@ -985,6 +985,7 @@ do -- ui source
 								end
 							end
 						end
+						pcall(Properties.Callback, Value)
 						DropdownValue.Text = Value
 					end
 					
