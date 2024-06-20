@@ -1,6 +1,7 @@
 local Instance_new = Instance.new;
 local UDim2_new = UDim2.new;
 local UDim_new = UDim.new;
+warn("LOADED")
 local Vector2_new = Vector2.new;
 local Color3_new = Color3.new;
 local Color3_fromRGB = Color3.fromRGB;
