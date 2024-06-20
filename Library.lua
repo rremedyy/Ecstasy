@@ -1182,7 +1182,7 @@ do -- ui source
 									
 									ScrollingFrame.Visible = false
 									open = false
-
+									Config.Dropdowns[Flag].Value = DropdownValue2.Text
 									pcall(Properties.Callback, DropdownValue2.Text)
 									wait(0.25)
 									cooldown2 = false
@@ -1202,6 +1202,7 @@ do -- ui source
 								end
 							end
 						end
+						Config.Dropdowns[Flag].Value = Value;
 						pcall(Properties.Callback, Value)
 						DropdownValue.Text = Value
 					end
