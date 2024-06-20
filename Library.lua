@@ -313,7 +313,6 @@ do -- ui source
 				Section.BorderSizePixel = 1;
 				Section.Position = UDim2_new(0, 1, 0, 26);
 				Section.Size = UDim2_new(1, -3, 1, -25);
-				Section.ScrollBarThickness = 0;
 				-- FramePadding
 				FramePadding.Parent = Section;
 				FramePadding.PaddingTop = UDim_new(0, 8);
