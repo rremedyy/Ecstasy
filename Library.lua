@@ -121,7 +121,8 @@ do -- ui source
 				Vertical.To = Vector2.new(Mouse.X, Mouse.Y + 8)
 			end
 		end)
-		
+
+		UserInputService.MouseIconEnabled = false
 		function Items:Toggle()
 			local Boolean = UI.Enabled
 			UI.Enabled = not Boolean
