@@ -11,7 +11,6 @@ local math_ceil = math.ceil;
 local math_floor = math.floor;
 local Drawing_new = Drawing.new;
 local table_insert = table.insert;
-warn("NEW TEST ONE")
 
 local TweenService = game:GetService('TweenService');
 local RunService = game:GetService('RunService');
