@@ -54,10 +54,10 @@ General:AddDropdown('DropdownFlag1', {
 	Callback = function(Value)
 		print(Value);
 	end;
-})
+});
 General:AddLabel({
 	Text = 'Label 1';
-})
+});
 General:AddButton({
 	Text = 'Button 1';
 	Callback = function()
