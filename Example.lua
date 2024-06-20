@@ -31,6 +31,7 @@ General:AddToggle('ToggleFlag2', {
 	end;
 }):AddKeypicker('KeyPickerFlag1', {
 	Default = 'X';
+	NoUI = false; -- true will not show it on the left side
 	Mode = 'Toggle'; -- Held, Toggle
 	Callback = function(Value)
 		print(Value)
