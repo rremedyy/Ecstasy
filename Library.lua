@@ -10,6 +10,7 @@ warn("NEW")
 local math_clamp = math.clamp;
 local math_ceil = math.ceil;
 local math_floor = math.floor;
+local Drawing_new = Drawing.new;
 local table_insert = table.insert;
 
 local TweenService = game:GetService('TweenService');
@@ -105,15 +106,39 @@ do -- ui source
 		local SelectedTab = nil;
 		local Items = {};
 
+		local Horizontal = Drawing_new("Line");
+		Horizontal.Visible = true;
+		Horizontal.Color = Color3.new(1,1,1);
+		local Vertical = Drawing_new("Line");
+		Vertical.Visible = true;
+		Vertical.Color = Color3.new(1,1,1);
+
+		RunService.RenderStepped:Connect(function()
+			if UI.Enabled then
+				local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+				Horizontal.From = Vector2.new(Mouse.X - 7, Mouse.Y)
+				Horizontal.To = Vector2.new(Mouse.X + 8, Mouse.Y)
+				Vertical.From = Vector2.new(Mouse.X, Mouse.Y - 7)
+				Vertical.To = Vector2.new(Mouse.X, Mouse.Y + 8)
+			end
+		end)
+		
 		function Items:Toggle()
 			local Boolean = UI.Enabled
 			UI.Enabled = not Boolean
 			UnlockFrame.Modal = not Boolean
 			while UI.Enabled do
+				UserInputService.MouseIconEnabled = false
+				Horizontal.Visible = true
+				Vertical.Visible = true
 				task.wait()
 			end
+			Horizontal.Visible = false;
+			Vertical.Visible = false;
+			UserInputService.MouseIconEnabled = true;
 			UnlockFrame.Modal = false;
 		end
+		
 		Config['Toggles'] = {};
 		Config['Sliders'] = {};
 		Config['Dropdowns'] = {};
