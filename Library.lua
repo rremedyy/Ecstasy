@@ -115,6 +115,7 @@ do -- ui source
 		end
 		Config['Toggles'] = {};
 		Config['Sliders'] = {};
+		Config['Dropdowns'] = {};
 		Config['KeyPickers'] = {};
 		Config['ColorPickers'] = {};
 		
@@ -817,6 +818,178 @@ do -- ui source
 					
 					Config.Sliders[Flag] = {
 						Value = Properties.Default or Properties.Min,
+						SetValue = SetValue,
+					}
+				end
+
+				function Items:AddDropdown(Flag, Properties)
+					local Dropdown = Instance.new("Frame")
+					local DropdownText = Instance.new("TextLabel")
+					local DropdownBackground = Instance.new("TextButton")
+					local DropdownValue = Instance.new("TextLabel")
+					local ScrollingFrame = Instance.new("ScrollingFrame")
+					local UIListLayout = Instance.new("UIListLayout")
+					
+					UIListLayout.Parent = ScrollingFrame
+					UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+					Dropdown.Parent = Section
+					Dropdown.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+					Dropdown.BackgroundTransparency = 10
+					Dropdown.BorderColor3 = Color3_fromRGB(0, 0, 0)
+					Dropdown.BorderSizePixel = 0
+					Dropdown.Size = UDim2_new(1, 0, 0, 40)
+
+					DropdownText.Parent = Dropdown
+					DropdownText.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+					DropdownText.BackgroundTransparency = 10
+					DropdownText.BorderColor3 = Color3_fromRGB(0, 0, 0)
+					DropdownText.BorderSizePixel = 0
+					DropdownText.Position = UDim2_new(0, 12, 0, 3)
+					DropdownText.Size = UDim2_new(0, 162, 0, 12)
+					DropdownText.Font = Enum.Font.Code
+					DropdownText.Text = Properties.Text
+					DropdownText.TextColor3 = Color3_fromRGB(160, 160, 160)
+					DropdownText.TextSize = 14
+					DropdownText.TextXAlignment = Enum.TextXAlignment.Left
+
+					DropdownBackground.Parent = Dropdown
+					DropdownBackground.AnchorPoint = Vector2_new(0.5, 0)
+					DropdownBackground.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+					DropdownBackground.BorderColor3 = Color3_fromRGB(45, 42, 45)
+					DropdownBackground.Position = UDim2_new(0.5, 0, 1, -21)
+					DropdownBackground.Size = UDim2_new(1, -25, 0, 18)
+					DropdownBackground.AutoButtonColor = false
+					DropdownBackground.TextTransparency = 10
+
+					DropdownValue.Parent = DropdownBackground
+					DropdownValue.AnchorPoint = Vector2_new(0.5, 0)
+					DropdownValue.BackgroundColor3 = Color3_fromRGB(255, 255, 255)
+					DropdownValue.BackgroundTransparency = 10
+					DropdownValue.BorderColor3 = Color3_fromRGB(0, 0, 0)
+					DropdownValue.BorderSizePixel = 0
+					DropdownValue.Position = UDim2_new(0.5, 2, 0, 0)
+					DropdownValue.Size = UDim2_new(1, -3, 1, 0)
+					DropdownValue.Font = Enum.Font.Code
+					DropdownValue.Text = Properties.Default
+					DropdownValue.TextColor3 = Color3_fromRGB(160, 160, 160)
+					DropdownValue.TextSize = 13
+					DropdownValue.TextXAlignment = Enum.TextXAlignment.Left
+
+					ScrollingFrame.Parent = Dropdown
+					ScrollingFrame.Active = true
+					ScrollingFrame.AnchorPoint = Vector2_new(0.5, 0)
+					ScrollingFrame.BackgroundColor3 = Color3_fromRGB(23, 23, 23)
+					ScrollingFrame.BorderColor3 = Color3_fromRGB(45, 42, 45)
+					ScrollingFrame.Position = UDim2_new(0.5, 0, 1, -2)
+					ScrollingFrame.Size = UDim2_new(1, -25, 0, 72)
+					ScrollingFrame.Visible = false
+					ScrollingFrame.ScrollBarThickness = 0
+					
+					local open = false
+					local cooldown = false
+					DropdownBackground.MouseButton1Click:Connect(function()
+						if cooldown == false then
+							cooldown = true
+							if open == false then
+								ScrollingFrame.Visible = true
+								SectionFrame.Size = UDim2_new(1, 0, 0, FrameLayout.AbsoluteContentSize.Y+41+72);
+								open = true
+							else
+								ScrollingFrame.Visible = false
+								SectionFrame.Size = UDim2_new(1, 0, 0, FrameLayout.AbsoluteContentSize.Y+41);
+								open = false
+							end
+						end
+						wait(.25)
+						cooldown = false
+					end)
+
+					ScrollingFrame.ChildAdded:Connect(function(child)
+						ScrollingFrame.CanvasSize = UDim2_new(1,0,0,UIListLayout.AbsoluteContentSize.Y + 18)
+					end)
+
+					local selectedItem = nil
+					local function update()
+						for i,v in pairs(ScrollingFrame:GetChildren()) do
+							if not string.find(v.ClassName, 'UI') then
+								v:Destroy()
+							end
+						end
+						for i,v in pairs(Properties.Values) do
+							local ItemButton = Instance.new("TextButton")
+							local DropdownValue2 = Instance.new("TextLabel")
+							
+							ItemButton.Parent = ScrollingFrame
+							ItemButton.AnchorPoint = Vector2.new(0.5, 0)
+							ItemButton.BackgroundColor3 = Color3.fromRGB(23, 23, 23)
+							ItemButton.BorderColor3 = Color3.fromRGB(45, 42, 45)
+							ItemButton.BorderSizePixel = 0
+							ItemButton.Position = UDim2.new(0.5, 0, 1, -21)
+							ItemButton.Size = UDim2.new(1, 0, 0, 18)
+							ItemButton.AutoButtonColor = false
+							ItemButton.TextTransparency = 1
+
+							DropdownValue2.Parent = ItemButton
+							DropdownValue2.AnchorPoint = Vector2.new(0.5, 0)
+							DropdownValue2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+							DropdownValue2.BackgroundTransparency = 1.000
+							DropdownValue2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							DropdownValue2.BorderSizePixel = 0
+							DropdownValue2.Position = UDim2.new(0.5, 2, 0, 0)
+							DropdownValue2.Size = UDim2.new(1, -3, 1, 0)
+							DropdownValue2.Font = Enum.Font.Code
+							DropdownValue2.Text = v
+							DropdownValue2.TextColor3 = Color3.fromRGB(160, 160, 160)
+							DropdownValue2.TextSize = 13
+							DropdownValue2.TextXAlignment = Enum.TextXAlignment.Left
+							if v == Properties.Default then
+								DropdownValue2.TextColor3 = Color3_fromRGB(216, 170, 202)
+								selectedItem = ItemButton
+							end
+
+
+							local cooldown2 = false
+							ItemButton.MouseButton1Click:Connect(function()
+								if not cooldown2 then
+									cooldown2 = true
+									selectedItem = ItemButton
+									DropdownValue.Text = DropdownValue2.Text
+									for i,v in pairs(ScrollingFrame:GetChildren()) do
+										if not string.find(v.ClassName, 'UI') and v ~= selectedItem then
+											v.TextLabel.TextColor3 = Color3_fromRGB(160, 160, 160)
+										end
+									end
+									
+									DropdownValue2.TextColor3 = Color3_fromRGB(216, 170, 202)
+									
+									ScrollingFrame.Visible = false
+									open = false
+
+									pcall(Properties.Callback, selectedItem.Name)
+									wait(0.25)
+									cooldown2 = false
+								end
+							end)
+						end
+					end
+					update()
+					
+					local function SetValue(Value)
+						for i,v in pairs(ScrollingFrame:GetChildren()) do
+							if not string.find(v.ClassName, 'UI') then
+								if v.TextLabel.Text ~= Value then
+									v.TextLabel.TextColor3 = Color3_fromRGB(160, 160, 160)
+								else
+									v.TextLabel.TextColor3 = Color3_fromRGB(216, 170, 202)
+								end
+							end
+						end
+						DropdownValue.Text = Value
+					end
+					
+					Config.Dropdowns[Flag] = {
+						Value = Properties.Default,
 						SetValue = SetValue,
 					}
 				end
