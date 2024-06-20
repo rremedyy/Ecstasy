@@ -33,7 +33,8 @@ do -- ui source
 		local TabLayout = Instance_new("UIListLayout");
 		local TabItems = Instance_new("Frame");
 
-		UI.Parent = game.Players.LocalPlayer.PlayerGui
+		UI.Parent = gethui()
+		UI.ResetOnSpawn = false
 		-- UnlockFrame
 		UnlockFrame.Parent = UI;
 		UnlockFrame.BackgroundTransparency = 1;
@@ -135,7 +136,8 @@ do -- ui source
 		UIPadding.PaddingLeft = UDim.new(0, 8)
 		UIPadding.PaddingTop = UDim.new(0, 4)
 
-		KeybindUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+		KeybindUI.Parent = gethui()
+		UI.ResetOnSpawn = false
 
 		KeybindBox.Parent = KeybindUI
 		KeybindBox.AnchorPoint = Vector2_new(0, .5);
