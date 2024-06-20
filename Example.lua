@@ -49,7 +49,7 @@ General:AddSlider('SliderFlag1', {
 });
 General:AddDropdown('DropdownFlag1', {
 	Text = 'Dropdown 1';
-	Default = 'Value One';
+	Default = 'Value 1';
 	Values = {'Value 1', 'Value 2', 'Value 3'};
 	Callback = function(Value)
 		print(Value);
