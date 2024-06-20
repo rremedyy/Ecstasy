@@ -137,7 +137,7 @@ do -- ui source
 		UIPadding.PaddingTop = UDim.new(0, 4)
 
 		KeybindUI.Parent = gethui()
-		UI.ResetOnSpawn = false
+		KeybindUI.ResetOnSpawn = false
 
 		KeybindBox.Parent = KeybindUI
 		KeybindBox.AnchorPoint = Vector2_new(0, .5);
