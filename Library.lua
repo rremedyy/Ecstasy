@@ -1,4 +1,3 @@
-warn("6.21")
 local Instance_new = Instance.new;
 local UDim2_new = UDim2.new;
 local UDim_new = UDim.new;
@@ -993,7 +992,7 @@ do -- ui source
 					
 					local function SetValue(Integer)
 						local Offset = math_ceil(GetValue(Integer, Properties.Min, Properties.Max, 0, SliderBackground.AbsoluteSize.X));
-						SliderTick.Position = UDim2_new(0, Offset, 0, 0);
+						SliderTick.Position = UDim2_new(Offset/SliderBackground.AbsoluteSize.X, 0, 0, 0);
 						SliderFill.Size = UDim2_new(Offset/SliderBackground.AbsoluteSize.X, 0, 1, 0);
 						SliderValue.Text = Integer
 						Config.Sliders[Flag].Value = Integer
@@ -1010,7 +1009,7 @@ do -- ui source
 						local CurrentValue = math_floor(GetValue(MathX, 0, SliderBackground.AbsoluteSize.X, Properties.Min, Properties.Max));
 						local Offset = math_ceil(GetValue(CurrentValue, Properties.Min, Properties.Max, 0, SliderBackground.AbsoluteSize.X));
 						SliderFill.Size = UDim2_new(Offset/SliderBackground.AbsoluteSize.X, 0, 1, 0);
-						SliderTick.Position = UDim2_new(0, MathX, 0, 0);
+						SliderTick.Position = UDim2_new(Offset/SliderBackground.AbsoluteSize.X, 0, 0, 0);
 						SliderValue.Text = tostring(CurrentValue);
 						Config.Sliders[Flag].Value = CurrentValue
 						pcall(Properties.Callback, CurrentValue);
