@@ -1086,7 +1086,15 @@ do -- ui source
 					DropdownValue.Position = UDim2_new(0.5, 2, 0, 0)
 					DropdownValue.Size = UDim2_new(1, -3, 1, 0)
 					DropdownValue.Font = Enum.Font.Code
-					DropdownValue.Text = Properties.Default
+					if typeof(Properties.Default) == 'string' then
+						DropdownValue.Text = Properties.Default
+					elseif typeof(Properties.Default) == 'number' then
+						DropdownValue.Text = Properties.Values[Properties.Default]
+						Properties.Default = Properties.Values[Properties.Default]
+					else
+						DropdownValue.Text = Properties.Values[1]
+						Properties.Default = Properties.Values[1]
+					end
 					DropdownValue.TextColor3 = Color3_fromRGB(160, 160, 160)
 					DropdownValue.TextSize = 13
 					DropdownValue.TextXAlignment = Enum.TextXAlignment.Left
