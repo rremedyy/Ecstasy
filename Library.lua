@@ -1326,7 +1326,7 @@ do -- ui source
 						local ColorButton = Instance_new("ImageButton")
 						local UICorner = Instance_new("UICorner")
 
-						ColorButton.Parent = ToggleFrame
+						ColorButton.Parent = Label
 						ColorButton.AutoButtonColor = false
 						ColorButton.BackgroundColor3 = Properties.Default
 						ColorButton.Position = UDim2_new(1, -32, 0.5, -6)
@@ -1523,7 +1523,7 @@ do -- ui source
 							local ColorButton = Instance_new("ImageButton")
 							local UICorner = Instance_new("UICorner")
 
-							ColorButton.Parent = ToggleFrame
+							ColorButton.Parent = Label
 							ColorButton.AutoButtonColor = false
 							ColorButton.BackgroundColor3 = Properties.Default
 							ColorButton.Position = UDim2_new(1, -58, 0.5, -6)
