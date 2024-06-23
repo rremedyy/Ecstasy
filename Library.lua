@@ -1324,8 +1324,8 @@ do -- ui source
 						end
 						for i,v in pairs(Players:GetPlayers()) do
 							local ItemButton = Instance.new("TextButton")
-							v.CharacterRemoving:Connect(function(Character)
-								if not Players:FindFirstChild(v.Name) then
+							v.AncestryChanged:Connect(function(Child, Parent)
+								if not Parent then
 									ItemButton:Destroy()
 								end
 							end)
@@ -1382,8 +1382,8 @@ do -- ui source
 						
 						Players.PlayerAdded:Connect(function(Player)
 							local ItemButton = Instance.new("TextButton")
-							Player.CharacterRemoving:Connect(function(Character)
-								if not Players[Player.Name] then
+							Player.AncestryChanged:Connect(function(Child, Parent)
+								if not Parent then
 									ItemButton:Destroy()
 								end
 							end)
