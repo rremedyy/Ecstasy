@@ -1464,10 +1464,10 @@ do -- ui source
 					LabelText.TextColor3 = Color3_fromRGB(160, 160, 160)
 					LabelText.TextSize = 14
 					LabelText.TextXAlignment = Enum.TextXAlignment.Left
-					
+
 					local Items = {}
 					function Items:AddKeypicker(Flag, Properties)
-						
+
 						local TextButton = Instance_new("TextButton")
 						TextButton.Parent = Label
 						TextButton.BackgroundTransparency = 1
