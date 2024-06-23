@@ -1283,7 +1283,7 @@ do -- ui source
 					ScrollingFrame.Position = UDim2_new(0.5, 0, 1, -2)
 					ScrollingFrame.Size = UDim2_new(1, -25, 0, 72)
 					ScrollingFrame.Visible = false
-					ScrollingFrame.ScrollBarThickness = 0
+					ScrollingFrame.ScrollBarThickness = 4
 					ScrollingFrame.ZIndex = 50
 
 					local open = false
@@ -1305,13 +1305,14 @@ do -- ui source
 
 					ScrollingFrame.ChildAdded:Connect(function(child)
 						repeat wait() until child.Size ~= nil and child.Size ~= UDim2_new(0,0,0,0);
+						print(ScrollingFrame.AbsoluteSize.X)
 						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
-						ScrollingFrame.CanvasSize = UDim2_new(0,UIListLayout.AbsoluteContentSize.X,0,UIListLayout.AbsoluteContentSize.Y-3)
+						ScrollingFrame.CanvasSize = UDim2_new(0,0,0,UIListLayout.AbsoluteContentSize.Y-3)
 					end)
 					
 					ScrollingFrame.ChildRemoved:Connect(function(child)
 						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
-						ScrollingFrame.CanvasSize = UDim2_new(0,UIListLayout.AbsoluteContentSize.X,0,UIListLayout.AbsoluteContentSize.Y-3)
+						ScrollingFrame.CanvasSize = UDim2_new(0,0,0,UIListLayout.AbsoluteContentSize.Y-3)
 					end)
 
 					local selectedItem = nil
