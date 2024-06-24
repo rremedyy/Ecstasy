@@ -1310,8 +1310,11 @@ do -- ui source
 					end)
 					
 					ScrollingFrame.ChildRemoved:Connect(function(child)
-						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
-						ScrollingFrame.CanvasSize = UDim2_new(0,0,0,UIListLayout.AbsoluteContentSize.Y-3)
+						task.spawn(function()
+							wait(.1)
+							ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
+							ScrollingFrame.CanvasSize = UDim2_new(0,0,0,UIListLayout.AbsoluteContentSize.Y-3)
+						end)
 					end)
 
 					local selectedItem = nil
