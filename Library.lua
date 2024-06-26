@@ -1,4 +1,3 @@
-print("Input Update")
 local Instance_new = Instance.new;
 local UDim2_new = UDim2.new;
 local UDim_new = UDim.new;
