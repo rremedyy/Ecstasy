@@ -153,6 +153,10 @@ do -- ui source
 		local UIListLayout = Instance_new("UIListLayout")
 		local UIPadding = Instance_new("UIPadding")
 		local TextLabel_3 = Instance_new("TextLabel")
+
+		function Items:ToggleKeypickerMenu(Boolean)
+			KeybindUI.Enabled = Boolean;
+		end
 		
 		UIListLayout.Parent = BottomBox
 		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
