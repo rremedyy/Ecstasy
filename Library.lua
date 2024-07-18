@@ -399,16 +399,15 @@ do -- ui source
 					end
 
 					local function SetValue(boolean)
+                        Config.Toggles[Flag].Value = boolean
+                        Properties.Default = boolean;
+                        pcall(Properties.Callback, boolean);
 						if boolean then
 							ToggleButton.BackgroundColor3 = Color3_fromRGB(252, 33, 122);
 							ToggleButton.BorderColor3 = Color3_fromRGB(80, 6, 39);
-							Properties.Default = true;
-							pcall(Properties.Callback, true);
 						else
 							ToggleButton.BackgroundColor3 = Color3_fromRGB(22, 19, 22);
 							ToggleButton.BorderColor3 = Color3_fromRGB(45, 42, 45);
-							Properties.Default = false;
-							pcall(Properties.Callback, false);
 						end
 					end
 					
