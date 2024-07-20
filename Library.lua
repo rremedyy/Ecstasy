@@ -1110,7 +1110,7 @@ do -- ui source
 					ScrollingFrame.Position = UDim2_new(0.5, 0, 1, -2)
 					ScrollingFrame.Size = UDim2_new(1, -25, 0, 72)
 					ScrollingFrame.Visible = false
-					ScrollingFrame.ScrollBarThickness = 0
+					ScrollingFrame.ScrollBarThickness = 5
 					ScrollingFrame.ZIndex = 50
 					
 					local open = false
