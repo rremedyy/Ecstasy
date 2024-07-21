@@ -1246,7 +1246,6 @@ do -- ui source
 						Properties.Values = Values
 						update()
 						DropdownValue.Text = '...'
-						pcall(Properties.Callback, DropdownValue.Text)
 					end
 					
 					Config.Dropdowns[Flag] = {
