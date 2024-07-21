@@ -1135,6 +1135,11 @@ do -- ui source
 						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
 						ScrollingFrame.CanvasSize = UDim2_new(0,UIListLayout.AbsoluteContentSize.X,0,UIListLayout.AbsoluteContentSize.Y-3)
 					end)
+					ScrollingFrame.ChildRemoved:Connect(function(child)
+						repeat wait() until child.Size ~= nil and child.Size ~= UDim2_new(0,0,0,0);
+						ScrollingFrame.Size = UDim2_new(1, -25, 0, math.clamp(UIListLayout.AbsoluteContentSize.Y, 0, 72))
+						ScrollingFrame.CanvasSize = UDim2_new(0,UIListLayout.AbsoluteContentSize.X,0,UIListLayout.AbsoluteContentSize.Y-3)
+					end)
 
 					local selectedItem = nil
 					local function update()
@@ -1217,8 +1222,17 @@ do -- ui source
 						pcall(Properties.Callback, Value)
 						DropdownValue.Text = Value
 					end
+
+					local function SetValues(Values)
+						local selectedItem = nil
+						Properties.Values = Values
+						update()
+						DropdownValue.Text = '...'
+						pcall(Properties.Callback, DropdownValue.Text)
+					end
 					
 					Config.Dropdowns[Flag] = {
+						SetValues = SetValues,
 						Value = Properties.Default,
 						SetValue = SetValue,
 					}
