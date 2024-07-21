@@ -574,6 +574,15 @@ do -- ui source
 							end
 						end)
 
+						UserInputService.InputBegan:Connect(function(input)
+							if input.UserInputType == Enum.UserInputType.MouseButton1 and Frame.Visible then
+								if Mouse.X < Frame.AbsolutePosition.X or Mouse.X > (Frame.AbsolutePosition.X+Frame.AbsoluteSize.X) or Mouse.Y < Frame.AbsolutePosition.Y or Mouse.Y > (Frame.AbsolutePosition.Y+Frame.AbsoluteSize.Y) then
+									Frame.Visible = false;
+									Picking = false;
+								end
+							end
+						end)
+
 						UserInputService.InputChanged:Connect(function(input)
 							if input.UserInputType == Enum.UserInputType.MouseMovement and Picking then
 								Saturation = 1-math_clamp((Mouse.X-Frame.AbsolutePosition.X)/Frame.AbsoluteSize.X, 0, 1)
@@ -768,6 +777,15 @@ do -- ui source
 							Color.InputEnded:Connect(function(Input)
 								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
 									Picking = false
+								end
+							end)
+
+							UserInputService.InputBegan:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseButton1 and Frame.Visible then
+									if Mouse.X < Frame.AbsolutePosition.X or Mouse.X > (Frame.AbsolutePosition.X+Frame.AbsoluteSize.X) or Mouse.Y < Frame.AbsolutePosition.Y or Mouse.Y > (Frame.AbsolutePosition.Y+Frame.AbsoluteSize.Y) then
+										Frame.Visible = false;
+										Picking = false;
+									end
 								end
 							end)
 
@@ -1714,6 +1732,15 @@ do -- ui source
 							end
 						end)
 
+						UserInputService.InputBegan:Connect(function(input)
+							if input.UserInputType == Enum.UserInputType.MouseButton1 and Frame.Visible then
+								if Mouse.X < Frame.AbsolutePosition.X or Mouse.X > (Frame.AbsolutePosition.X+Frame.AbsoluteSize.X) or Mouse.Y < Frame.AbsolutePosition.Y or Mouse.Y > (Frame.AbsolutePosition.Y+Frame.AbsoluteSize.Y) then
+									Frame.Visible = false;
+									Picking = false;
+								end
+							end
+						end)
+
 						UserInputService.InputChanged:Connect(function(input)
 							if input.UserInputType == Enum.UserInputType.MouseMovement and Picking then
 								Saturation = 1-math_clamp((Mouse.X-Frame.AbsolutePosition.X)/Frame.AbsoluteSize.X, 0, 1)
@@ -1908,6 +1935,15 @@ do -- ui source
 							Color.InputEnded:Connect(function(Input)
 								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
 									Picking = false
+								end
+							end)
+
+							UserInputService.InputBegan:Connect(function(input)
+								if input.UserInputType == Enum.UserInputType.MouseButton1 and Frame.Visible then
+									if Mouse.X < Frame.AbsolutePosition.X or Mouse.X > (Frame.AbsolutePosition.X+Frame.AbsoluteSize.X) or Mouse.Y < Frame.AbsolutePosition.Y or Mouse.Y > (Frame.AbsolutePosition.Y+Frame.AbsoluteSize.Y) then
+										Frame.Visible = false;
+										Picking = false;
+									end
 								end
 							end)
 
