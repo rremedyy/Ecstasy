@@ -1562,7 +1562,7 @@ do -- ui source
 					local function SetValue(Value)
 						Config.Dropdowns[Flag].Value = Value;
 						pcall(Properties.Callback, Value)
-						InputBox.Text = Value
+						InputBox.Text = Value or ''
 					end
 					
 					if not Properties.Finished then
