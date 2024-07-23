@@ -34,7 +34,7 @@ do -- ui source
 		local TabLayout = Instance_new("UIListLayout");
 		local TabItems = Instance_new("Frame");
 
-		UI.Parent = gethui()
+		UI.Parent = LocalPlayer.PlayerGui
 		UI.ResetOnSpawn = false
 		-- UnlockFrame
 		UnlockFrame.Parent = UI;
